@@ -152,14 +152,14 @@ export default function Contact() {
   const contacts = [
     {
       label: "WhatsApp",
-      value: "+94 78 381 4220",
-      href: "https://wa.me/94783814220",
+      value: "+94 70 200 4343",
+      href: "https://wa.me/94702004343",
       icon: "💬",
     },
     {
       label: "Email",
-      value: "sansana296@gmail.com",
-      href: "mailto:sansana296@gmail.com",
+      value: "pudam.1hhome@zohomail.com",
+      href: "mailto:pudam.1hhome@zohomail.com",
       icon: "✉",
     },
     {
@@ -273,7 +273,7 @@ export default function Contact() {
     const name = formEl.name.value;
     const email = formEl.email.value;
     const message = formEl.message.value;
-    window.location.href = `mailto:sansana296@gmail.com?subject=Project Inquiry from ${encodeURIComponent(
+    window.location.href = `mailto:pudam.1hhome@zohomail.com?subject=Project Inquiry from ${encodeURIComponent(
       name
     )}&body=${encodeURIComponent(message)}%0A%0AReply to: ${encodeURIComponent(
       email

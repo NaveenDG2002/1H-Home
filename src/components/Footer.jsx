@@ -32,7 +32,7 @@ export default function Footer() {
     { label: "Instagram", href: "https://instagram.com" },
     { label: "Behance", href: "https://behance.net" },
     { label: "LinkedIn", href: "https://linkedin.com" },
-    { label: "WhatsApp", href: "https://wa.me/" },
+    { label: "WhatsApp", href: "https://wa.me/94702004343" },
   ];
 
   // ---------- styles ----------
@@ -251,9 +251,9 @@ export default function Footer() {
           {/* Contact + Newsletter */}
           <div>
             <p style={headingStyle}>Get in Touch</p>
-            <p style={contactItemStyle}>hello@1h-home.com</p>
-            <p style={contactItemStyle}>+94 7X XXX XXXX</p>
-            <p style={contactItemStyle}>Negombo, Sri Lanka</p>
+            <p style={contactItemStyle}>pudam.1hhome@zohomail.com</p>
+            <p style={contactItemStyle}>+94 70 200 4343</p>
+            <p style={contactItemStyle}>Colombo, Sri Lanka</p>
 
             <p style={{ ...headingStyle, marginTop: "28px" }}>Newsletter</p>
             {subscribed ? (
