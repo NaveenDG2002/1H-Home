@@ -1,7 +1,14 @@
 import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import heroBg from "../assets/hero-bg.jpg";
+
+import clothCover from "../assets/gallery/cloth/clothcover.jpg";
+import coverFrontCover from "../assets/gallery/cover-front/cover-frontcover.jpg";
+import hotelsCover from "../assets/gallery/hotels/hotelscover.jpg";
+import posterCover from "../assets/gallery/poster/postercover.jpg";
+import visitingCardCover from "../assets/gallery/visiting-card/visiting-cardcover.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,45 +19,50 @@ export default function Home() {
   const servicesRef = useRef(null);
 
   useEffect(() => {
-    gsap.fromTo(
-      headlineRef.current,
-      { opacity: 0, y: 40 },
-      { opacity: 1, y: 0, duration: 1.2, ease: "power3.out", delay: 0.3 }
-    );
-    gsap.fromTo(
-      subRef.current,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 1, ease: "power3.out", delay: 0.7 }
-    );
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        headlineRef.current,
+        { opacity: 0, y: 40 },
+        { opacity: 1, y: 0, duration: 1.2, ease: "power3.out", delay: 0.3 }
+      );
+      gsap.fromTo(
+        subRef.current,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 1, ease: "power3.out", delay: 0.7 }
+      );
 
-    gsap.fromTo(
-      introRef.current,
-      { opacity: 0, y: 30 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: "power2.out",
-        scrollTrigger: { trigger: introRef.current, start: "top 80%" },
-      }
-    );
+      gsap.fromTo(
+        introRef.current,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "power2.out",
+          scrollTrigger: { trigger: introRef.current, start: "top 80%" },
+        }
+      );
 
-    gsap.fromTo(
-      ".service-item",
-      { opacity: 0, y: 30 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: "power2.out",
-        scrollTrigger: { trigger: servicesRef.current, start: "top 85%" },
-      }
-    );
+      gsap.fromTo(
+        ".service-item",
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          stagger: 0.1,
+          ease: "power2.out",
+          scrollTrigger: { trigger: servicesRef.current, start: "top 85%" },
+        }
+      );
+    });
+
+    // Cleans up animations + ScrollTriggers when leaving the page
+    return () => ctx.revert();
   }, []);
 
   const handleHoverIn = (e) => {
-    gsap.to(e.currentTarget, { scale: 1.05, duration: 0.35, ease: "power2.out" });
+    gsap.to(e.currentTarget, { scale: 1.04, duration: 0.35, ease: "power2.out" });
   };
   const handleHoverOut = (e) => {
     gsap.to(e.currentTarget, { scale: 1, duration: 0.35, ease: "power2.out" });
@@ -144,32 +156,41 @@ export default function Home() {
     opacity: 0,
   };
 
+  // --- "Recent work" reel-card section, with real cover photos ---
   const services = [
-    { slug: "cloth", label: "Clothing & Apparel" },
-    { slug: "cover-front", label: "Cover Fronts" },
-    { slug: "hotels", label: "Hotels" },
-    { slug: "poster", label: "Posters" },
-    { slug: "visiting-card", label: "Visiting Cards" },
+    { slug: "cloth", label: "Clothing & Apparel", cover: clothCover },
+    { slug: "cover-front", label: "Cover Fronts", cover: coverFrontCover },
+    { slug: "hotels", label: "Hotels", cover: hotelsCover },
+    { slug: "poster", label: "Posters", cover: posterCover },
+    { slug: "visiting-card", label: "Visiting Cards", cover: visitingCardCover },
   ];
 
-  const servicesGridStyle = {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-    gap: "1px",
-    background: "#2a2a2a",
-    marginTop: "64px",
+  const workSectionStyle = {
+    padding: "120px 24px",
+    background: "#06151a",
+    textAlign: "left",
   };
 
-  const serviceItemStyle = {
-    background: "#141414",
-    padding: "48px 24px",
-    textAlign: "center",
-    color: "#fff",
-    textDecoration: "none",
-    fontFamily: "serif",
-    fontSize: "1.15rem",
-    display: "block",
-    opacity: 0,
+  const workHeadingStyle = {
+    fontFamily: "sans-serif",
+    fontWeight: 800,
+    fontSize: "clamp(2rem, 6vw, 3.4rem)",
+    letterSpacing: "-0.03em",
+    color: "#f4f1fb",
+    margin: "0 auto 48px",
+    maxWidth: "1200px",
+  };
+
+  const reelsOuterStyle = {
+    maxWidth: "1200px",
+    margin: "0 auto",
+  };
+
+  const reelsRowStyle = {
+    display: "flex",
+    gap: "14px",
+    overflowX: "auto",
+    paddingBottom: "16px",
   };
 
   return (
@@ -196,22 +217,83 @@ export default function Home() {
           shape brands through video, photography, and graphic design
           across apparel, hospitality, print, and identity work.
         </p>
+      </section>
 
-        <div ref={servicesRef} style={servicesGridStyle}>
-          {services.map((s) => (
-            <a
-              key={s.slug}
-              href={`/work/${s.slug}`}
-              className="service-item"
-              style={serviceItemStyle}
-              onMouseEnter={handleHoverIn}
-              onMouseLeave={handleHoverOut}
-            >
-              {s.label}
-            </a>
-          ))}
+      <section style={workSectionStyle} ref={servicesRef}>
+        <h2 style={workHeadingStyle}>Recent work</h2>
+        <div style={reelsOuterStyle}>
+          <div style={reelsRowStyle} className="home-reels-row">
+            {services.map((s) => (
+              <Link
+                key={s.slug}
+                to={`/work/${s.slug}`}
+                className="service-item home-reel"
+                style={{ backgroundImage: `url(${s.cover})` }}
+                onMouseEnter={handleHoverIn}
+                onMouseLeave={handleHoverOut}
+              >
+                <span className="home-reel-label">{s.label}</span>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
+
+      <style>{`
+        .home-reel {
+          flex: 0 0 240px;
+          aspect-ratio: 9 / 16;
+          border-radius: 18px;
+          padding: 20px;
+          display: flex;
+          align-items: flex-end;
+          text-decoration: none;
+          background-size: cover;
+          background-position: center;
+          position: relative;
+          overflow: hidden;
+          opacity: 0;
+        }
+
+        .home-reel::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(
+            180deg,
+            rgba(0,0,0,0) 40%,
+            rgba(0,0,0,0.75) 100%
+          );
+          border-radius: 18px;
+        }
+
+        .home-reel-label {
+          position: relative;
+          z-index: 2;
+          font-weight: 700;
+          font-family: sans-serif;
+          font-size: 1.05rem;
+          color: #f4f1fb;
+        }
+
+        .home-reels-row {
+          scrollbar-width: thin;
+          scrollbar-color: #444 transparent;
+        }
+        .home-reels-row::-webkit-scrollbar {
+          height: 8px;
+        }
+        .home-reels-row::-webkit-scrollbar-thumb {
+          background: #444;
+          border-radius: 4px;
+        }
+
+        @media (max-width: 600px) {
+          .home-reel {
+            flex-basis: 180px;
+          }
+        }
+      `}</style>
     </>
   );
 }
